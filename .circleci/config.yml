@@ -54,7 +54,7 @@ jobs:
           command: |
             echo 'CIRCLE_NODE_TOTAL'
             echo $CIRCLE_NODE_TOTAL
-            export PREV_TEST_BUILD = $CIRCLE_BUILD_NUM - 4
+            export PREV_TEST_BUILD=$CIRCLE_BUILD_NUM-4
             echo 'PREV_TEST_BUILD is '$PREV_TEST_BUILD
             echo 'CIRCLE_PROJECT_USERNAME is '$CIRCLE_PROJECT_USERNAME
       - run:
