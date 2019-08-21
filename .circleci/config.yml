@@ -58,8 +58,10 @@ jobs:
       # Run rspec and show on code climate
       - run: |
           ./cc-test-reporter before-build
-          bundle exec rspec
+          bundle exec rspec --format progress --format RspecJunitFormatter -o rspec.xml
           ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+      - store_artifacts:
+          path: rspec.xml
   static_code_analysis:
     docker:
       - image: circleci/ruby:2.4.2-node
