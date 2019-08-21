@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Download artifacts
           command: |
-            curl https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts\?circle-token=$CIRCLE_TOKEN
+            curl https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts?circle-token=$CIRCLE_TOKEN
       # Download test-reporter
       - run:
           name: Setup Code Climate test-reporter
