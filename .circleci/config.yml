@@ -54,13 +54,17 @@ jobs:
           command: |
             echo 'CIRCLE_NODE_TOTAL'
             echo $CIRCLE_NODE_TOTAL
-            echo 'CIRCLE_PREVIOUS_BUILD_NUM'
-            echo $CIRCLE_PREVIOUS_BUILD_NUM
+            export PREV_TEST_BUILD = $CIRCLE_BUILD_NUM - 4
+            echo 'PREV_TEST_BUILD is '$PREV_TEST_BUILD
             echo 'CIRCLE_PROJECT_USERNAME is '$CIRCLE_PROJECT_USERNAME
       - run:
           name: Download artifacts
           command: |
-            echo 'hoge' 
+            curl https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts\?circle-token=$CIRCLE_TOKEN \
+              | grep -o 'https://[^"]*' \
+              | tr -d \" \
+              | sed -e "s/$/?circle-token=$CIRCLE_TOKEN/" \
+              | wget -v -O rspec_pred.xml -i -
       # Download test-reporter
       - run:
           name: Setup Code Climate test-reporter
