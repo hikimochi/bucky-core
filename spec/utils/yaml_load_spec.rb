@@ -9,7 +9,7 @@ describe Bucky::Utils::YamlLoad do
 
   describe '#load_yaml' do
     it 'load target yaml' do
-      expect(yaml_load.load_yaml(yaml_file)).to be_a(Array)
+      expect(yaml_load.load_yaml(yaml_file)).to be_a(Hash)
     end
   end
 
