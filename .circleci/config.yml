@@ -61,6 +61,8 @@ jobs:
       - run:
           name: Download artifacts
           command: |
+            export PREV_TEST_BUILD=$(($CIRCLE_BUILD_NUM-4))
+            echo https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BU    ILD/artifacts?circle-token=$CIRCLE_TOKEN
             curl https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts?circle-token=$CIRCLE_TOKEN
       # Download test-reporter
       - run:
