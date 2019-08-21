@@ -57,13 +57,16 @@ jobs:
             export PREV_TEST_BUILD=$(($CIRCLE_BUILD_NUM-4))
             echo 'PREV_TEST_BUILD is '$PREV_TEST_BUILD
             echo 'CIRCLE_PROJECT_USERNAME is '$CIRCLE_PROJECT_USERNAME
-            echo $CIRCLE_TOKEN
       - run:
           name: Download artifacts
           command: |
-            export PREV_TEST_BUILD=$(($CIRCLE_BUILD_NUM-4))
-            echo https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BU    ILD/artifacts?circle-token=$CIRCLE_TOKEN
-            curl https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts?circle-token=$CIRCLE_TOKEN
+            PREV_TEST_BUILD=$(($CIRCLE_BUILD_NUM-4))
+            echo $PREV_TEST_BUILD
+            curl https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts?circle-token=$CIRCLE_TOKEN \
+              | grep -o 'https://[^"]*' \
+              | tr -d \" \
+              | sed -e "s/$/?circle-token=$CIRCLE_TOKEN/" \
+              | wget -v -O rspec_pred.xml -i -
       # Download test-reporter
       - run:
           name: Setup Code Climate test-reporter
