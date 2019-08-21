@@ -56,6 +56,11 @@ jobs:
             echo $CIRCLE_NODE_TOTAL
             echo 'CIRCLE_PREVIOUS_BUILD_NUM'
             echo $CIRCLE_PREVIOUS_BUILD_NUM
+            echo 'CIRCLE_PROJECT_USERNAME is '$CIRCLE_PROJECT_USERNAME
+      - run:
+          name: Download artifacts
+          command: |
+            echo 'hoge' 
       # Download test-reporter
       - run:
           name: Setup Code Climate test-reporter
