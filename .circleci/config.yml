@@ -49,6 +49,13 @@ jobs:
         key: unit-test-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
+      - run:
+          name: Enveronment variable research
+          command: |
+            echo 'CIRCLE_NODE_TOTAL'
+            echo $CIRCLE_NODE_TOTAL
+            echo 'CIRCLE_PREVIOUS_BUILD_NUM'
+            echo $CIRCLE_PREVIOUS_BUILD_NUM
       # Download test-reporter
       - run:
           name: Setup Code Climate test-reporter
