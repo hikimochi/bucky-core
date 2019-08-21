@@ -68,7 +68,6 @@ jobs:
               | tr -d \" \
               | sed -e "s/$/?circle-token=$CIRCLE_TOKEN/" \
               | wget -v -O rspec_pred.xml -i -
-            cat rspec_pred.xml
       # Download test-reporter
       - run:
           name: Setup Code Climate test-reporter
@@ -82,6 +81,8 @@ jobs:
           ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
       - store_artifacts:
           path: rspec.xml
+      - store_artifacts:
+          path: rspec_pred.xml
   static_code_analysis:
     docker:
       - image: circleci/ruby:2.4.2-node
