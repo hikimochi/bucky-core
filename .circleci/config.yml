@@ -56,13 +56,15 @@ jobs:
             USER_NAME: hikimochi
             PROJECT: bucky-core
             TARGET_JOB: unit_test
+            TARGET_FILE: rspec.xml
             OUTPUT: rspec_pred.xml
             DEPTH: 10
           command: |
+            GREP_STR='https://[^"]*'$TARGET_FILE'[^"]*'
             PREV_TEST_BUILD=$(curl -s https://circleci.com/api/v1.1/project/$VCS_TYPE/$USER_NAME/$PROJECT?circle-token=$CIRCLE_TOKEN\&limit=$DEPTH\&filter=completed | jq --arg TARGET_JOB "$TARGET_JOB" '.[] | { name: .build_parameters.CIRCLE_JOB, build_num: .build_num } | select(.name==$TARGET_JOB) | .build_num' | head -n 1)
             echo 'previous unit test build number is '$PREV_TEST_BUILD
             curl -s https://circleci.com/api/v1.1/project/$VCS_TYPE/$USER_NAME/$PROJECT/$PREV_TEST_BUILD/artifacts?circle-token=$CIRCLE_TOKEN \
-              | grep -o 'https://[^"]*rspec.xml[^"]*' \
+              | grep -o $GREP_STR \
               | tr -d \" \
               | sed -e "s/$/?circle-token=$CIRCLE_TOKEN/" \
               | wget -q -O $OUTPUT -i -
