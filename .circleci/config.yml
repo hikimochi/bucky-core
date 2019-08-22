@@ -49,10 +49,10 @@ jobs:
         key: unit-test-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-      - run:
-          name: Install jq
-          command: |
-            apt-get install -y jq
+#      - run:
+#          name: Install jq
+#          command: |
+#            apt-get install -y jq
       - run:
           name: Download artifacts
           command: |
