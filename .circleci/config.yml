@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Download artifacts
           command: |
-            PREV_TEST_BUILD=$(curl -s https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core?circle-token=$CIRCLE_TOKEN\&limit=10\&offset=1\&filter=completed | jq  '.[] | { name: .build_parameters.CIRCLE_JOB, build_num: .build_num } | select(.name=="unit_test") | .build_num' | head -n 1)
+            PREV_TEST_BUILD=$(curl -s https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core?circle-token=$CIRCLE_TOKEN\&limit=10\&filter=completed | jq  '.[] | { name: .build_parameters.CIRCLE_JOB, build_num: .build_num } | select(.name=="unit_test") | .build_num' | head -n 1)
             echo 'previous unit test build number is '$PREV_TEST_BUILD
             curl -s https://circleci.com/api/v1.1/project/github/hikimochi/bucky-core/$PREV_TEST_BUILD/artifacts?circle-token=$CIRCLE_TOKEN \
               | grep -o 'https://[^"]*rspec.xml[^"]*' \
