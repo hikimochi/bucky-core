@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Install jq
           command: |
-            apt-get isnatll -y jq
+            apt-get install -y jq
       - run:
           name: Download artifacts
           command: |
