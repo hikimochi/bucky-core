@@ -29,7 +29,10 @@ jobs:
       - uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
         with:
           ruby-version: '3.2.0'
-          bundler-cache: true
+      - name: Install dependencies
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
       - name: Run RSpec
         run: |
           mkdir -p test-results/rspec
@@ -54,7 +57,10 @@ jobs:
       - uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
         with:
           ruby-version: '3.2.0'
-          bundler-cache: true
+      - name: Install dependencies
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
       - name: Run RuboCop on changed Ruby files
         env:
           EVENT_NAME: ${{ github.event_name }}
@@ -93,7 +99,7 @@ jobs:
         shell: bash
         run: |
           while IFS= read -r -d '' test_file; do
-            docker exec bucky-core bats "/bucky-core/${test_file}"
+            docker exec bucky-core bats --print-output-on-failure "/bucky-core/${test_file}"
           done < <(find system_testing/testing_code -type f -name '*.bats' -print0)
       - name: Stop system test services
         if: always()

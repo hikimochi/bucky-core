@@ -24,7 +24,6 @@ jobs:
       - uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
         with:
           ruby-version: '3.2.0'
-          bundler-cache: true
       - name: Set release version on master
         env:
           VERSION: ${{ github.ref_name }}
