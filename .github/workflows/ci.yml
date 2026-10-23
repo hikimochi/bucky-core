@@ -111,6 +111,13 @@ jobs:
           while IFS= read -r -d '' test_file; do
             docker exec bucky-core bats --print-output-on-failure "/bucky-core/${test_file}"
           done < <(find system_testing/testing_code -type f -name '*.bats' -print0)
+      - name: Collect system test diagnostics
+        if: failure()
+        run: |
+          docker ps -a
+          docker exec bucky-chrome getent hosts bucky.net || true
+          docker exec bucky-chrome curl --verbose --max-time 5 http://bucky.net/ || true
+          docker logs bucky.net || true
       - name: Stop system test services
         if: always()
         run: docker compose -f docker-compose.system-test.yml down
