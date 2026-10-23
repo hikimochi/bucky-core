@@ -59,15 +59,12 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          PUSH_BEFORE: ${{ github.event.before }}
         run: |
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
             base_sha="$PR_BASE_SHA"
-          elif [[ "$PUSH_BEFORE" =~ ^0+$ ]]; then
+          else
             git fetch --no-tags origin master
             base_sha="$(git merge-base origin/master HEAD)"
-          else
-            base_sha="$PUSH_BEFORE"
           fi
 
           mapfile -t ruby_files < <(git diff --name-only "$base_sha...HEAD" -- '*.rb')
