@@ -95,6 +95,16 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Start system test services
         run: docker compose -f docker-compose.system-test.yml up -d --build
+      - name: Wait for the test site
+        run: |
+          for attempt in {1..30}; do
+            if docker exec bucky-chrome curl --fail --silent --show-error http://bucky.net/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs bucky.net
+          exit 1
       - name: Run Bats tests
         shell: bash
         run: |
